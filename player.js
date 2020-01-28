@@ -14,6 +14,7 @@ class Player {
         this._posYs = this._gameHeight - this._pHeight - 10
         this._posY = this._gameHeight - this._pHeight - 10
 
+
         this._vel = 1
 
         this._player.frames = 3
@@ -44,7 +45,7 @@ class Player {
 
 
     move() {
-        let gravity = 0.2;
+        let gravity = 0.1;
 
         if (this._posY <= this._posYs) {
 
@@ -70,7 +71,7 @@ class Player {
     }
 
     setListeners() {
-        document.onkeyup = e => {
+        document.onkeydown = e => {
             switch (e.keyCode) {
                 case this._keys.top:
                     if (this._posY >= 50) {

@@ -8,8 +8,8 @@ class Incendiary {
         this._incendiary = new Image()
         this._incendiary.src = "img/piromano.png"
 
-        this._widthPi = 210
-        this._heightPi = 220
+        this._widthPi = 120
+        this._heightPi = 150
 
 
         this._posXpi = this._gameWidth
