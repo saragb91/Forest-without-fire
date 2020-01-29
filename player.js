@@ -18,6 +18,8 @@ class Player {
 
         this._vel = 1
 
+
+
         this._player.frames = 3
         this._player.framesIndex = 0
 

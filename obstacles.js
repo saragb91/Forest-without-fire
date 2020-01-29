@@ -1,11 +1,13 @@
 class Obstacles {
     constructor(ctx, url) {
         this._ctx = ctx
-        this._posXobs = 800
-        this._posYobs = 570
+
 
         this._gameWidthObs = window.innerWidth
         this._gameHeight = window.innerHeight
+
+        this._posXobs = this._gameWidthObs
+        this._posYobs = 570
 
         this._obstacles = new Image()
         this._obstacles.src = url
