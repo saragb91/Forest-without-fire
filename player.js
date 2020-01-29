@@ -13,6 +13,7 @@ class Player {
         this._posX = 0
         this._posYs = this._gameHeight - this._pHeight - 10
         this._posY = this._gameHeight - this._pHeight - 10
+        this._posYt = this.gameHeight + 550
 
 
         this._vel = 1
@@ -57,12 +58,13 @@ class Player {
             this._vel = 1;
             this._posY = this._posYs;
         }
+
         this._stones.forEach(stone => stone.move())
 
     }
 
     animate(framesCont) {
-        if (framesCont % 30 == 0) {
+        if (framesCont % 25 == 0) {
             this._player.framesIndex++;
             if (this._player.framesIndex > 2) {
                 this._player.framesIndex = 0;
@@ -74,7 +76,7 @@ class Player {
         document.onkeydown = e => {
             switch (e.keyCode) {
                 case this._keys.top:
-                    if (this._posY >= 50) {
+                    if (this._posY >= this._posYs) {
                         this._posY -= 10;
                         this._vel -= 8;
                     }
@@ -89,6 +91,7 @@ class Player {
         };
 
 
+
     }
 
     shootStone() {
@@ -97,15 +100,16 @@ class Player {
 
         console.log(this._stones)
 
-        if (this._stones.length === 15) {
-            this._stones = []
+        this._stones.forEach((st, idx) => {
+            if (st.posXst <= 0) {
+                this._stones.splice(idx, 1)
+            }
+        })
 
-        }
     }
-
-
-
 }
+
+
 
 
 

@@ -45,12 +45,19 @@ const game = {
             this.newObstacles();
             this.secuenceIncendiary();
             this.clearObstacles();
-            if (this.collision()) {
-                this.gameOver()
+            this.clearIncendiary();
+            this.collisionStone();
+            // if (this.collisionStone()) {
+
+            //     this.dissapearIncendiary()
+            // }
+
+            if (this.collisionTree() || this.collisionIncendiary()) {
+                this.gameOver() && this.printGameOver()
             }
 
             this.framesCont++;
-        }, 1000 / this.fps);
+        }, 500 / this.fps);
     },
 
     drawElements() {
@@ -60,6 +67,7 @@ const game = {
         //si this.incen es un array lo recorremos para que se pinten los incendiarios de dentro
         this.incen.forEach(inc => inc.draw());
         this.obsArr.forEach(obs => obs.draw());
+        //this.gameOver.draw()
 
     },
     moveElements() {
@@ -83,7 +91,7 @@ const game = {
 
 
 
-        if (this.framesCont % 1500 == 0) {
+        if (this.framesCont % 1000 == 0) {
             console.log(this.obsArr);
             this.obsArr.push(new Obstacles(this.ctx, 'img/tree1.png'))
         }
@@ -96,12 +104,23 @@ const game = {
 
     clearObstacles() {
 
-
         if (this.obsArr.length === 15) {
-            this.obsArr = []
+            this._obsArr = []
 
         }
     },
+
+    clearIncendiary() {
+
+
+        this.incen.forEach((inc, idx) => {
+
+            if (inc.posXpi <= 0) {
+                this.incen.splice(idx, 1)
+            }
+        })
+    },
+
 
     clearElements() {
         this.ctx.clearRect(0, 0, this.wSize.width, this.wSize.height)
@@ -109,14 +128,16 @@ const game = {
 
     secuenceIncendiary() {
         let prueba = Math.floor(Math.random() * (500 - 30) + 30)
-        if (prueba % 311 === 0) {
+        if (prueba % 50 === 0) {
             let newIncen = new Incendiary(this.ctx)
+            console.log(this.incen);
             this.incen.push(newIncen)
         }
+
     },
 
 
-    collision() {
+    collisionTree() {
 
         // let plaX = this.player.posX
         // let plaX2 = this.player.posX + 200;
@@ -129,18 +150,77 @@ const game = {
 
         return this.obsArr.some(
             obs =>
-                this.player._posX - 80 + this.player._pWidth >= obs._posXobs && this.player._posY + this.player._pHeight >= obs._posYobs && this.player._posX <= obs._posXobs + obs._widthObs - 70
+                this.player._posX - 100 + this.player._pWidth >= obs._posXobs &&
+                this.player._posY + this.player._pHeight >= obs._posYobs &&
+                this.player._posX <= obs._posXobs + obs._widthObs - 110
 
 
         );
+
+
+    },
+    collisionIncendiary() {
+        return this.incen.some(
+            inc =>
+                this.player._posX - 60 + this.player._pWidth >= inc._posXpi &&
+                this.player._posY + this.player._pHeight >= inc._posYpi + 25 &&
+                this.player._posX <= inc._posXpi + inc._widthPi - 110
+        )
+    },
+
+    collisionStone() {
+        // return this.player._stones.some(
+        //     st => this.incen.some(
+        //         inc =>
+        //             st._posXst >= inc._posXpi + 50 &&
+        //             st._posYst >= inc._posYpi
+        //     ))
+        //     // this.incen.splice(0, 1)
+        this.player._stones.some(
+            (st, idx2) => {
+                this.incen.some(
+                    (inc, idx) => {
+                        if (st._posXst + st._radius >= inc._posXpi + 50 &&
+                            st._posYst + st._radius <= inc._posYpi + inc._heightPi &&
+                            st._posYst + st._radius >= inc._posYpi &&
+                            st._posXst + st._radius <= inc._posXpi + inc._widthPi
+                        ) {
+                            console.log("choco", this.incen[idx], this.player._stones[idx2])
+                            this.incen.splice(idx, 1)
+                            this.player._stones.splice(idx2, 1)
+                        }
+                    }
+                )
+            })
     },
 
 
+    // dissapearIncendiary() {
+    //     // this.incen.splice(0, 1)
+    //     this.player._stones.some(
+    //         st => this.incen.some(
+    //             (inc, idx) => {
+    //                 if (st._posXst >= inc._posXpi + 50 &&
+    //                     st._posYst >= inc._posYpi)
+    //                     this.incen.splice(idx, 1)
+    //             }
+    //         ))
+
+    // },
+    // dissapearStone() {
+    //     this.player._stones.splice(0, 1)
+
+    // },
     gameOver() {
 
         clearInterval(this.interval)
+        alert("GAME OVER")
 
-    }
 
+    },
+    // printGameOver() {
+
+    //     this.gameOver = new GameOver(ctx)
+    // }
 };
 

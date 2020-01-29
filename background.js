@@ -10,7 +10,7 @@ class Background {
         this._posX = 0
         this._posY = 0
 
-        this._velX = 0.3
+        this._velX = 1
     }
 
     draw() {

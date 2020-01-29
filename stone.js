@@ -10,7 +10,7 @@ class Stone {
     }
 
     draw() {
-        console.log("jidfj")
+
         this._ctx.beginPath()
         this._ctx.fillStyle = 'silver'
         //this._ctx.arc(this._posXst, this._posYst, this._radius, 0, Math.PI * 2);
