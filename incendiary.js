@@ -26,15 +26,10 @@ class Incendiary {
             this._posYpi,
             this._widthPi,
             this._heightPi,
-
-
         )
-
     }
 
     move() {
         this._posXpi -= this._vel;
-
-
     }
 }

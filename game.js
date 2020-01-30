@@ -22,6 +22,7 @@ const game = {
         top: 87,
         shoot: 68
     },
+    newLifes: [],
 
     init() {
         this.canvasDom = document.getElementById("canvasDom");
@@ -38,7 +39,7 @@ const game = {
             // if (this.framesCont % 300 === 0) {
             //}
 
-            if (this.framesCont > 1000) this.framesCont = 0;
+            if (this.framesCont > 100000) this.framesCont = 0;
 
 
             this.clearElements();
@@ -48,6 +49,7 @@ const game = {
             this.drawElements();
             this.moveElements();
             this.newFruits();
+            this.newHeart();
             this.newObstacles();
             this.secuenceIncendiary();
             this.collisionFruits();
@@ -80,9 +82,9 @@ const game = {
         this.background.draw()
         this.player.draw(this.framesCont)
         //si this.incen es un array lo recorremos para que se pinten los incendiarios de dentro
+        this.fruitsArr.forEach(fru => fru.draw());
         this.incen.forEach(inc => inc.draw());
         this.obsArr.forEach(obs => obs.draw());
-        this.fruitsArr.forEach(fru => fru.draw());
 
         //this.gameOver.draw()
     },
@@ -90,9 +92,9 @@ const game = {
     moveElements() {
         this.background.move();
         this.player.move();
+        this.fruitsArr.forEach(fru => fru.move());
         this.incen.forEach(inc => inc.move());
         this.obsArr.forEach(obs => obs.move());
-        this.fruitsArr.forEach(fru => fru.move());
     },
 
     resetElements() {
@@ -116,12 +118,25 @@ const game = {
             console.log(this.incen);
             this.incen.push(newIncen)
         }
+    },
 
+    newHeart() {
+        if (this.lifes === 1) {
+            this.lifes = new Lifes(this.ctx)
+            this.lifes.draw()
+
+        } else if (this.lifes > 1) {
+            this.lifes = new Lifes(this.ctx)
+            this.lifes.draw() += 1
+
+        } else {
+            this.lifes = new Lifes(this.ctx)
+            this.lifes.draw() -= 1
+        }
     },
 
     newFruits() {
-
-        if (this.framesCont % 900000 === 0) {
+        if (this.framesCont % 4000 === 0) {
 
             this.fruitsArr.push(new Fruits(this.ctx))
         }
@@ -166,7 +181,7 @@ const game = {
                     this.player._posX <= fru._posXf + fru._widthf &&
                     this.player._posY <= fru._posYf + fru._heightf) {
                     this.lifes += 1
-                    this.obsArr.splice(idx3, 1)
+                    this.fruitsArr.splice(idx3, 1)
                     return true
                 }
             }
