@@ -1,20 +1,25 @@
 class Lifes {
-    constructor(ctx) {
+    constructor(ctx, posXh) {
         this._ctx = ctx
 
         this._lifes = new Image()
-        this._lifes = 'img/heart.png'
+        this._lifes.src = 'img/heart.png'
 
-        this._posXh = 400
+        this._posXh = 40
         this._posYh = 20
+        this._posIniX = posXh
+
+
     }
 
     draw() {
+
         this._ctx.drawImage(
             this._lifes,
+            this._posIniX,
+            30,
             this._posXh,
             this._posYh,
-
         )
     }
 }

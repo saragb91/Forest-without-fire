@@ -11,6 +11,7 @@ const game = {
     frames: 0,
     obstacleImg: undefined,
     lifes: 3,
+    lifesArr: [],
     incen: [],
     obsArr: [],
     fruitsArr: [],
@@ -22,7 +23,6 @@ const game = {
         top: 87,
         shoot: 68
     },
-    newLifes: [],
 
     init() {
         this.canvasDom = document.getElementById("canvasDom");
@@ -36,11 +36,7 @@ const game = {
         this.resetElements();
         this.interval = setInterval(() => {
 
-            // if (this.framesCont % 300 === 0) {
-            //}
-
             if (this.framesCont > 100000) this.framesCont = 0;
-
 
             this.clearElements();
             this.clearFruits();
@@ -49,26 +45,14 @@ const game = {
             this.drawElements();
             this.moveElements();
             this.newFruits();
-            this.newHeart();
             this.newObstacles();
             this.secuenceIncendiary();
             this.collisionFruits();
             this.collisionStone();
             this.collisionTree();
             this.collisionIncendiary();
-            // if (this.collisionStone()) {
 
-            //     this.dissapearIncendiary()
-            // }
 
-            // if (this.collisionTree() || this.collisionIncendiary()) {
-            //     this.restLifes()
-
-            //     console.log(this.restLifes())
-
-            //     //this.gameOver() && this.printGameOver()
-            // }
-            console.log(this.lifes, "las vidas")
             if (this.lifes == 0) {
                 this.gameOver()
             }
@@ -76,6 +60,7 @@ const game = {
             this.framesCont++;
         }, 500 / this.fps);
     },
+
 
     drawElements() {
 
@@ -85,8 +70,7 @@ const game = {
         this.fruitsArr.forEach(fru => fru.draw());
         this.incen.forEach(inc => inc.draw());
         this.obsArr.forEach(obs => obs.draw());
-
-        //this.gameOver.draw()
+        this.lifesArr.forEach(nl => nl.draw());
     },
 
     moveElements() {
@@ -100,7 +84,7 @@ const game = {
     resetElements() {
         this.background = new Background(this.ctx, this.width, this.height)
         this.player = new Player(this.ctx, this.keys)
-        // this.incen.push(new Incendiary(this.ctx))
+        this.newLifes()
     },
 
     newObstacles() {
@@ -115,28 +99,23 @@ const game = {
         let prueba = Math.floor(Math.random() * (500 - 30) + 30)
         if (prueba % 147 === 0) {
             let newIncen = new Incendiary(this.ctx)
-            console.log(this.incen);
+
             this.incen.push(newIncen)
         }
     },
 
-    newHeart() {
-        if (this.lifes === 1) {
-            this.lifes = new Lifes(this.ctx)
-            this.lifes.draw()
+    newLifes() {
+        let position = 60
+        for (let i = 0; i < this.lifes; i++) {
 
-        } else if (this.lifes > 1) {
-            this.lifes = new Lifes(this.ctx)
-            this.lifes.draw() += 1
-
-        } else {
-            this.lifes = new Lifes(this.ctx)
-            this.lifes.draw() -= 1
+            let life = new Lifes(this.ctx, position)
+            this.lifesArr.push(life)
+            position += 50
         }
     },
 
     newFruits() {
-        if (this.framesCont % 4000 === 0) {
+        if (this.framesCont % 3000 === 0) {
 
             this.fruitsArr.push(new Fruits(this.ctx))
         }
@@ -164,7 +143,6 @@ const game = {
                 this.fruitsArr.splice(idx3, 1)
             }
         })
-
     },
 
 
@@ -176,11 +154,13 @@ const game = {
     collisionFruits() {
         this.fruitsArr.some(
             (fru, idx3) => {
-                if (this.player._posX + this.player._pWidth >= fru._posXf &&
+                if (this.player._posX - 80 + this.player._pWidth >= fru._posXf &&
                     this.player._posY + this.player._pHeight >= fru._posYf &&
                     this.player._posX <= fru._posXf + fru._widthf &&
                     this.player._posY <= fru._posYf + fru._heightf) {
                     this.lifes += 1
+                    this.lifesArr = []
+                    this.newLifes()
                     this.fruitsArr.splice(idx3, 1)
                     return true
                 }
@@ -195,23 +175,14 @@ const game = {
                     this.player._posY + this.player._pHeight >= obs._posYobs &&
                     this.player._posX <= obs._posXobs + obs._widthObs - 110) {
                     this.lifes -= 1
+                    this.lifesArr = []
+                    this.newLifes()
                     this.obsArr.splice(idx, 1)
                     return true
                 }
-
             }
         );
-
     },
-
-    // let plaX = this.player.posX
-    // let plaX2 = this.player.posX + 200;
-    // let plaY2 = this.player.posY + 160;
-
-    // let obsX = this.obstacles.posXobs
-    // //let obsX2 = this.obstacles.posXobs + 100;
-    // let obsY = this.obsArr[].posYobs;
-    // let obsY2 = this.obsArr[].posXobs + 50
 
     collisionIncendiary() {
         this.incen.some(
@@ -220,6 +191,8 @@ const game = {
                     this.player._posY + this.player._pHeight >= inc._posYpi + 25 &&
                     this.player._posX <= inc._posXpi + inc._widthPi - 110) {
                     this.lifes -= 1
+                    this.lifesArr = []
+                    this.newLifes()
                     this.incen.splice(idx2, 1)
                     return true
                 }
@@ -228,13 +201,7 @@ const game = {
     },
 
     collisionStone() {
-        // return this.player._stones.some(
-        //     st => this.incen.some(
-        //         inc =>
-        //             st._posXst >= inc._posXpi + 50 &&
-        //             st._posYst >= inc._posYpi
-        //     ))
-        //     // this.incen.splice(0, 1)
+
         this.player._stones.some(
             (st, idx2) => {
                 this.incen.some(
@@ -253,40 +220,14 @@ const game = {
     },
 
 
-    // dissapearIncendiary() {
-    //     // this.incen.splice(0, 1)
-    //     this.player._stones.some(
-    //         st => this.incen.some(
-    //             (inc, idx) => {
-    //                 if (st._posXst >= inc._posXpi + 50 &&
-    //                     st._posYst >= inc._posYpi)
-    //                     this.incen.splice(idx, 1)
-    //             }
-    //         ))
 
-    // },
-    // dissapearStone() {
-    //     this.player._stones.splice(0, 1)
-
-    // },
-    // restLifes() {
-
-    //     this.lifes -= 1
-
-
-    // },
 
 
     gameOver() {
 
         clearInterval(this.interval)
         alert("GAME OVER")
-
-
     },
-    // printGameOver() {
 
-    //     this.gameOver = new GameOver(ctx)
-    // }
 };
 

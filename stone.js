@@ -13,7 +13,6 @@ class Stone {
 
         this._ctx.beginPath()
         this._ctx.fillStyle = 'silver'
-        //this._ctx.arc(this._posXst, this._posYst, this._radius, 0, Math.PI * 2);
         this._ctx.arc(this._posXst, this._posYst, 5, 2, Math.PI * 2);
         this._ctx.fill()
         this._ctx.closePath()

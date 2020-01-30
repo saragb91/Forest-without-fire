@@ -100,8 +100,6 @@ class Player {
 
         this._stones.push(new Stone(this._ctx, this._pWidth, this._pHeight, this._vel));
 
-        console.log(this._stones)
-
         this._stones.forEach((st, idx) => {
             if (st.posXst <= 0) {
                 this._stones.splice(idx, 1)
