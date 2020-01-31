@@ -21,7 +21,6 @@ class Fruits {
             this._posYf,
             this._widthf,
             this._heightf,
-
         )
     }
 

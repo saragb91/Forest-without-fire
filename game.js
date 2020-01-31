@@ -30,10 +30,13 @@ const game = {
         this.canvasDom.width = this.wSize.width;
         this.canvasDom.height = this.wSize.height;
         this.start()
+
     },
 
     start() {
         this.resetElements();
+        this.musics();
+
         this.interval = setInterval(() => {
 
             if (this.framesCont > 100000) this.framesCont = 0;
@@ -42,6 +45,7 @@ const game = {
             this.clearFruits();
             this.clearObstacles();
             this.clearIncendiary();
+
             this.drawElements();
             this.moveElements();
             this.newFruits();
@@ -52,15 +56,20 @@ const game = {
             this.collisionTree();
             this.collisionIncendiary();
 
-
             if (this.lifes == 0) {
-                this.gameOver()
+                this.theEnd()
             }
 
             this.framesCont++;
         }, 500 / this.fps);
     },
 
+    musics() {
+        let musicGame = document.createElement("audio")
+        musicGame.src = "img/music.mp3-"
+        musicGame.volume = 0.5
+        musicGame.play();
+    },
 
     drawElements() {
 
@@ -84,6 +93,7 @@ const game = {
     resetElements() {
         this.background = new Background(this.ctx, this.width, this.height)
         this.player = new Player(this.ctx, this.keys)
+        this.gameOver = new GameOver(this.ctx)
         this.newLifes()
     },
 
@@ -91,13 +101,14 @@ const game = {
         let pruebaObstacle = Math.floor(Math.random() * (500 - 30) + 30)
         if (pruebaObstacle % 481 === 0) {
             let newObstacles = new Obstacles(this.ctx, 'img/tree1.png')
+
             this.obsArr.push(newObstacles)
         }
     },
 
     secuenceIncendiary() {
         let prueba = Math.floor(Math.random() * (500 - 30) + 30)
-        if (prueba % 147 === 0) {
+        if (prueba % 247 === 0) {
             let newIncen = new Incendiary(this.ctx)
 
             this.incen.push(newIncen)
@@ -155,9 +166,9 @@ const game = {
         this.fruitsArr.some(
             (fru, idx3) => {
                 if (this.player._posX - 80 + this.player._pWidth >= fru._posXf &&
-                    this.player._posY + this.player._pHeight >= fru._posYf &&
-                    this.player._posX <= fru._posXf + fru._widthf &&
-                    this.player._posY <= fru._posYf + fru._heightf) {
+                    this.player._posY + this.player._pHeight >= fru._posYf - 80 &&
+                    this.player._posX <= fru._posXf - 80 + fru._widthf &&
+                    this.player._posY <= fru._posYf - 80 + fru._heightf) {
                     this.lifes += 1
                     this.lifesArr = []
                     this.newLifes()
@@ -219,15 +230,11 @@ const game = {
             })
     },
 
+    theEnd() {
 
-
-
-
-    gameOver() {
-
+        this.gameOver.draw();
         clearInterval(this.interval)
-        alert("GAME OVER")
-    },
 
+    },
 };
 

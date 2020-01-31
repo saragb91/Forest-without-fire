@@ -5,7 +5,7 @@ class Lifes {
         this._lifes = new Image()
         this._lifes.src = 'img/heart.png'
 
-        this._posXh = 40
+        this._posXh = 30
         this._posYh = 20
         this._posIniX = posXh
 

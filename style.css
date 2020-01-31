@@ -1,0 +1,35 @@
+*{
+        padding: 0;
+        margin: 0
+    }
+
+body {
+  background-image: url('img/start.png');
+  background-size: cover ;
+  height: 100vh; 
+}
+
+#start-btn{
+  font-family: "Poppins";
+  font-weight: bold;
+  font-size: 30px;
+  background-color: #870007;
+  color: #fff;
+  padding: 20px 40px;
+  border: 0;
+  box-shadow: 0;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  justify-content: center;
+  height: 74px;
+  display: block;
+  margin: 0 auto;
+  margin-top: calc(50vh - 37px);
+}
+
+body {
+  background-image: url('img/start.png');
+  background-size: cover;
+  height: 100vh;
+
+}

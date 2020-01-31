@@ -1,14 +1,14 @@
 class GameOver {
     constructor(ctx) {
         this._ctx = ctx
-        this._posXG = window.innerWidth / 2
-        this._posYG = window.innerHeight / 2
+        this._posXG = window.innerWidth / 2 - 200
+        this._posYG = window.innerHeight / 2 - 120
 
         this._gameOver = new Image()
-        this._gameOver.src = 'img/gameover.png'
+        this._gameOver.src = 'img/12834.png'
 
-        this._widthG = 600
-        this._heightG = 500
+        this._widthG = 350
+        this._heightG = 300
     }
 
     draw() {

@@ -16,7 +16,7 @@ class Incendiary {
         this._posYspi = this._gameHeight - this._heightPi + 10
         this._posYpi = this._gameHeight - this._heightPi + 10
 
-        this._vel = 1
+        this._vel = 1.5
     }
 
     draw() {

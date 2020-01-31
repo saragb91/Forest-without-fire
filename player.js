@@ -88,12 +88,8 @@ class Player {
                     this.shootStone()
 
                     break;
-
             }
         };
-
-
-
     }
 
     shootStone() {
@@ -105,7 +101,6 @@ class Player {
                 this._stones.splice(idx, 1)
             }
         })
-
     }
 }
 
