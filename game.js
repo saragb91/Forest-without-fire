@@ -45,7 +45,6 @@ const game = {
             this.clearFruits();
             this.clearObstacles();
             this.clearIncendiary();
-
             this.drawElements();
             this.moveElements();
             this.newFruits();
@@ -66,7 +65,7 @@ const game = {
 
     musics() {
         let musicGame = document.createElement("audio")
-        musicGame.src = "img/music.mp3-"
+        musicGame.src = "img/music.mp3"
         musicGame.volume = 0.5
         musicGame.play();
     },
